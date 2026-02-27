@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exact Snake & Ladder board</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="board-panel">
+        <!-- 10x10 grid: exact snake & ladder board -->
+        <div class="snake-ladder-grid" id="gameBoard">
+            <!-- cells will be injected by javascript to keep html clean and exact numbering (boustrophedon) -->
+        </div>
+        <div class="board-footer">
+            <span class="start-label">🚀 START 1</span>
+            <span class="end-label">🏁 100 FINISH</span>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const boardEl = document.getElementById('gameBoard');
+            const totalCells = 100;
+            const rows = 10;
+            const cols = 10;
+            const cells = [];
+
+           
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    let number;
+                    if (r % 2 === 0) {
+                        // even row from top (r=0,2,4,6,8) → left to right descending
+                        number = 100 - (r * 10) - c;
+                    } else {
+                        // odd row (r=1,3,5,7,9) → right to left descending
+                        number = 100 - (r * 10) - (9 - c);
+                    }
+                    const cellDiv = document.createElement('div');
+                    cellDiv.className = `cell cell-${number}`;  // add specific class for graphics
+                    const span = document.createElement('span');
+                    span.textContent = number;
+                    cellDiv.appendChild(span);
+                    boardEl.appendChild(cellDiv);
+                }
+            }
+
+           
+            const allCells = document.querySelectorAll('.cell');
+            allCells.forEach(cell => {
+                const span = cell.querySelector('span');
+                if (span) {
+                    const num = parseInt(span.textContent, 10);
+                    if (num === 1) {
+                        cell.style.backgroundColor = '#c5e0b4';
+                        cell.style.border = '3px solid #267326';
+                    }
+                    if (num === 100) {
+                        cell.style.backgroundColor = '#f6d5ac';
+                        cell.style.border = '3px solid #cc7a1f';
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
